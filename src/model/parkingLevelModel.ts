@@ -6,9 +6,15 @@ const parkingLevelSchema = new mongoose.Schema(
             type: String,
             required: [true, "Please enter floor level ID"]
         },
-        parkingLotID: {
-            type: String,
-            required: [true, "Please enter Parking Lot ID"]
+        parkingLot:{
+            parkingLotID: {
+                type: String,
+                required: [true, "Please enter Parking Lot ID"]
+            },
+            parkingLotName: {
+                type: String,
+                required: [true, "Please enter Parking Lot Name"]
+            },
         },
         name: {
             type: String,

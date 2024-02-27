@@ -18,13 +18,13 @@ const ParkingLotSelection = () => {
     if (isLoading) return <><p>Loading...</p></>
     if (isError) return <><p>Error...</p></>
 
-    const test = (value:any) => {
+    const urlHandler = (value:any) => {
         router.push(`?parking=${value.toLowerCase()}`)
     }
 
     return (
         <div>
-            <Select onValueChange={(e:any)=>test(e)}>
+            <Select onValueChange={(e:any)=>urlHandler(e)}>
                 <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Parking Lot" />
                 </SelectTrigger>
