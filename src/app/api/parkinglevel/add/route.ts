@@ -1,4 +1,4 @@
-import ParkingLot from '@/model/parkingLotModel';
+import ParkingLevel from '@/model/parkingLevelModel';
 import Sequence from '@/model/sequenceModel';
 import { dbconn } from '@/db/conn'
 import { NextRequest, NextResponse } from "next/server";
@@ -9,16 +9,16 @@ export async function POST(req: NextRequest) {
     try {
         const reqBody = await req.json()
 
-        const { name, description } = reqBody
-        const existing = await ParkingLot.findOne({ name })
+        const { parkingLotID, name, description,grid } = reqBody
+        const existing = await ParkingLevel.findOne({ parkingLotID, name })
     
         if (!existing) {
     
-            const updateSequence = await Sequence.findOneAndUpdate({ name: "parkinglot" }, { "$inc": { "val": 1 } }, { new: true })
+            const updateSequence = await Sequence.findOneAndUpdate({ name: "parkinglevel" }, { "$inc": { "val": 1 } }, { new: true })
             let valID
             if (updateSequence === null) {
                 Sequence.create({
-                    name: "parkinglot",
+                    name: "parkinglevel",
                     val: 1001
                 })
                 valID = 1001
@@ -27,34 +27,36 @@ export async function POST(req: NextRequest) {
                 valID = updateSequence.val
             }
     
-            const newParkingLot = await ParkingLot.create({
+            const newParkingLevel = await ParkingLevel.create({
                 id: valID,
+                parkingLotID,
                 name,
-                description
+                description,
+                grid
             })
     
-            if (newParkingLot) {
+            if (newParkingLevel) {
                 return NextResponse.json({
-                    message: "New Parking Lot has been added.",
+                    message: "New Parking Level has been added.",
                 })
             }
     
             else {
                 return NextResponse.json({
-                    message: "Something went wrong when adding a new parking lot.",
+                    message: "Something went wrong when adding a new parking level.",
                 })
             }
         }
     
         else {
             return NextResponse.json({
-                error: "Parking Lot with that name already exists.",
+                error: "Parking Level with that name already exists.",
             })
         }
     } catch (error) {
-            return NextResponse.json({
-                error: "An unexpected error occured.",
-            })
+        return NextResponse.json({
+            error: "An unexpected error occured.",
+        })
     }
 
 

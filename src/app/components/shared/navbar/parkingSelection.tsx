@@ -10,21 +10,28 @@ import {
 } from "@/components/ui/select"
 
 import { getParkingLots } from '@/services/getParkingLots'
+import { useRouter } from 'next/navigation'
 
 const ParkingLotSelection = () => {
+    const router = useRouter()
     const { data, isLoading, isError }: any = getParkingLots()
     if (isLoading) return <><p>Loading...</p></>
     if (isError) return <><p>Error...</p></>
+
+    const test = (value:any) => {
+        router.push(`?parking=${value.toLowerCase()}`)
+    }
+
     return (
         <div>
-            <Select>
+            <Select onValueChange={(e:any)=>test(e)}>
                 <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Parking Lot" />
                 </SelectTrigger>
                 <SelectContent>
                     {data.data.map((parkinglot:any)=>{
                         return (
-                            <SelectItem key={parkinglot.id} value={parkinglot.id}>{parkinglot.name}</SelectItem>
+                            <SelectItem key={parkinglot.id} value={parkinglot.name}>{parkinglot.name}</SelectItem>
                         )
                     })}
                 </SelectContent>
