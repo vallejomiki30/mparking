@@ -13,8 +13,11 @@ const ParkingGrid = ({ parking }: any) => {
     <div>
       {data.data.map((level: any) => {
         return (
-          <div className='grid grid-cols-10 items-center justify-center w-full gap-4 p-2'>
-            <ParkingGridMap gridCount={level.grid}></ParkingGridMap>
+          <div key={level.id} className='p-2'>
+          <p>{level.name}</p>
+          <div className='grid grid-cols-10 w-full gap-4 p-2'>
+            <ParkingGridMap levelID={level.id} gridCount={level.grid}></ParkingGridMap>
+          </div>
           </div>
         )
       })}
